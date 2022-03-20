@@ -2,6 +2,7 @@ import {AfterViewInit, ContentChild, Directive, ElementRef, Inject, Input, OnDes
 import {fromEvent, Subscription, takeUntil} from "rxjs";
 import {DOCUMENT} from "@angular/common";
 import {DraggableSelector} from "./DraggableSelector";
+import {Dialogue} from "../models/dialogue";
 
 @Directive({
   selector: "[DialogueWindow]",
@@ -15,7 +16,7 @@ export class DialogueWindow implements OnInit,AfterViewInit, OnDestroy {
 
   @ContentChild(DraggableSelector) handle!: DraggableSelector;
   @Input() boundaryQuery = this.DEFAULT_DRAGGING_BOUNDARY_QUERY;
-
+  @Input() guid:string
 
   constructor(
     private elementRef: ElementRef,
@@ -71,8 +72,10 @@ export class DialogueWindow implements OnInit,AfterViewInit, OnDestroy {
         this.element.style.transform =  "translate3d(" + currentX + "px, " + currentY + "px, 0)"; });
     });
     const dragEndSub = dragEnd$.subscribe(() => {
+
       initialX = currentX;
       initialY = currentY;
+      console.log("End", this.guid)
       this.element.classList.remove('dialogue_windows');
       if (dragSub) {
         dragSub.unsubscribe();
