@@ -1,0 +1,17 @@
+<div *ngIf="IsActive" class="side_menu side_menu_shadow">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: dimgray 1px solid">
+      Characters:
+    </div>
+  </div>
+
+
+  <ng-container  *ngFor="let character of ListOfCharacters">
+    <div class="row">
+      <div class="col-md-12" style="text-align: center; font-size: 24px">
+        {{ character.Name }}
+      </div>
+    </div>
+  </ng-container>
+
+</div>
