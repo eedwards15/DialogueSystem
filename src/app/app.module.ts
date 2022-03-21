@@ -11,6 +11,8 @@ import {DialogueWindow} from "./components/Directives/DialogueWindow";
 import {CommonModule} from "@angular/common";
 import {DraggableSelector} from "./components/Directives/DraggableSelector";
 import { DialogWindowComponent } from './components/dialog-window/dialog-window.component';
+import {StoreModule} from "@ngrx/store";
+import {metaReducers, reducers} from "./reducers";
 
 @NgModule({
   declarations: [
@@ -26,7 +28,14 @@ import { DialogWindowComponent } from './components/dialog-window/dialog-window.
     CommonModule,
     HttpClientModule,
     FormsModule,
-    routing
+    routing,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
