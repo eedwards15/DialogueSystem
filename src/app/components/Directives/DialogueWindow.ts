@@ -2,7 +2,9 @@ import {AfterViewInit, ContentChild, Directive, ElementRef, Inject, Input, OnDes
 import {fromEvent, Subscription, takeUntil} from "rxjs";
 import {DOCUMENT} from "@angular/common";
 import {DraggableSelector} from "./DraggableSelector";
-import {Dialogue} from "../models/dialogue";
+import {Dialogue, UpdateMovement} from "../models/dialogue";
+import {Store} from "@ngrx/store";
+import {SetPosition} from "../../actions/dialogue.actions";
 
 @Directive({
   selector: "[DialogueWindow]",
@@ -17,10 +19,12 @@ export class DialogueWindow implements OnInit,AfterViewInit, OnDestroy {
   @ContentChild(DraggableSelector) handle!: DraggableSelector;
   @Input() boundaryQuery = this.DEFAULT_DRAGGING_BOUNDARY_QUERY;
   @Input() guid:string
+  @Input() dialogue_entry:Dialogue
 
   constructor(
     private elementRef: ElementRef,
-    @Inject(DOCUMENT) private document: any) {}
+    @Inject(DOCUMENT) private document: any,
+    private store:Store<any>) {}
 
   ngOnInit(): void {}
 
@@ -34,6 +38,8 @@ export class DialogueWindow implements OnInit,AfterViewInit, OnDestroy {
     } else {
       this.element = this.elementRef.nativeElement as HTMLElement;
       this.handleElement = this.handle?.elementRef?.nativeElement || this.element;
+      this.element.style.transform =  "translate3d(" + this.dialogue_entry.Xpos + "px, " + this.dialogue_entry.Ypos + "px, 0)";
+
       this.initDrag();
     }
   }
@@ -50,8 +56,8 @@ export class DialogueWindow implements OnInit,AfterViewInit, OnDestroy {
 
     let initialX: number = 0
     let initialY: number = 0
-    let currentX = 0;
-    let currentY = 0;
+    let currentX = this.dialogue_entry.Xpos;
+    let currentY = this.dialogue_entry.Ypos;
 
     let dragSub: Subscription;
 
@@ -68,14 +74,18 @@ export class DialogueWindow implements OnInit,AfterViewInit, OnDestroy {
 
         currentX = Math.max(minBoundX, Math.min(x, maxBoundX));
         currentY = Math.max(minBoundY, Math.min(y, maxBoundY));
-
+          let movement = new UpdateMovement(this.guid, currentX,currentY);
+          this.store.dispatch(SetPosition({"payload": movement}))
         this.element.style.transform =  "translate3d(" + currentX + "px, " + currentY + "px, 0)"; });
     });
     const dragEndSub = dragEnd$.subscribe(() => {
 
       initialX = currentX;
       initialY = currentY;
-      console.log("End", this.guid)
+      console.log("End", this.guid, initialX,initialY)
+
+
+
       this.element.classList.remove('dialogue_windows');
       if (dragSub) {
         dragSub.unsubscribe();

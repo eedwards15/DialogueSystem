@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
     this.dialoguesSub = this.store.pipe(select(fromStore.AllDialogues)).subscribe((data) =>{
       if(data != null){
         this.dialogues = data;
+        console.log("Data",data)
       }
     });
 
@@ -51,7 +52,7 @@ export class HomeComponent implements OnInit {
     if(key == "n")
     {
       let guid =  Guid.create().toString();
-      let d = new Dialogue(guid,"0px","0px", guid)
+      let d = new Dialogue(guid,0,0, guid)
       this.store.dispatch(NewDialogue({"payload":d }))
     }
 
