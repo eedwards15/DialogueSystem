@@ -1,0 +1,25 @@
+<div class="dialogueBox" DialogueWindow [guid]="dialogue_entry.UniqueId">
+  <div class="row" >
+    <div DraggableSelector class="col-md-12 windowBar">
+      Handle
+    </div>
+  </div>
+  <div class="row" >
+    <div class="col-md-12">
+      <textarea
+        class="dialogueBox_Input"
+        [value]="dialogue_entry.Value"></textarea>
+    </div>
+  </div>
+  <div class="row" style="position: relative; bottom: 0px">
+    <div class="col-md-4">
+      <button type="button" class="btn btn-primary dialogueBox_Btn">+</button>
+    </div>
+    <div class="col-md-4">
+      <button type="button" class="btn btn-secondary dialogueBox_Btn">Link</button>
+    </div>
+    <div class="col-md-4">
+      <button type="button" class="btn btn-danger dialogueBox_Btn" (click)="Remove()" >-</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+.dialogueBox{
+  width: 432px;
+  height: 300px;
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+  padding-left: 13px;
+  padding-right: 13px;
+  border-radius: 5px;
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+}
+
+.dialogueBox_Btn{
+  width: 100%;
+}
+
+.dialogueBox_Input{
+  height: 219px;
+  resize: none;
+  width: 400px;
+  margin-top: 5px;
+}
+
+
+
+.windowBar{
+  background-image: linear-gradient(
+    0deg,
+    hsl(0deg 0% 48%) 0%,
+    hsl(0deg 0% 42%) 2%,
+    hsl(0deg 0% 37%) 6%,
+    hsl(0deg 0% 32%) 12%,
+    hsl(0deg 0% 27%) 20%,
+    hsl(0deg 0% 21%) 30%,
+    hsl(0deg 0% 16%) 42%,
+    hsl(0deg 0% 11%) 56%,
+    hsl(0deg 0% 5%) 73%,
+    hsl(0deg 0% 0%) 97%
+  );
+}
