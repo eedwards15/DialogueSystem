@@ -19,23 +19,13 @@ export class CharacterListComponent implements OnInit {
     this.IsActive = false
     let test = new Character("Test")
     this.ListOfCharacters.push(test)
-
-
-
-
-
   }
 
-
-
-
-
-
   @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
+  handleKeyboardEvent(event: KeyboardEvent)
+  {
     let key = event.key;
-
-    if(key == "c")
+    if((event.ctrlKey || event.metaKey) && event.key == "c")
     {
       this.IsActive = !this.IsActive
     }

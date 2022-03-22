@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Dialogue, UpdateMovement} from "../components/models/dialogue";
+import {Dialogue, JsonHelper, UpdateMovement} from "../components/models/dialogue";
 
 @Injectable()
 export class DialogueState {
@@ -79,7 +79,7 @@ export class DialogueState {
     {
       if(this.dialogues[i].UniqueId === this.selectedDialogue.UniqueId)
       {
-        this.dialogues[i].ChildrenNodes.push(this.SelectDialogueAction(dialogueID))
+        this.dialogues[i].ChildrenNodes.push(dialogueID)
       }
     }
   }
@@ -100,7 +100,25 @@ export class DialogueState {
     this.selectedDialogue = null;
   }
 
+  public LoadAction(jsonfile:string){
+    let objFromJSon = JSON.parse(jsonfile);
+    console.log("j", objFromJSon);
+    let results:Dialogue[] = [];
 
+    for (let i = 0; i <  objFromJSon.length ; i++)
+    {
+      let record = JsonHelper.JsonToDialogue(objFromJSon[i]);
+
+      for (let j = 0; j <  objFromJSon[i].ChildrenNodes.length ; j++)
+      {
+        record.ChildrenNodes.push(objFromJSon[i].ChildrenNodes[j])
+      }
+      results.push(record);
+    }
+
+    this.dialogues = results;
+    console.log("D", this.dialogues);
+  }
 
 
 }
