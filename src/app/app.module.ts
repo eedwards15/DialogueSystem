@@ -14,6 +14,7 @@ import { DialogWindowComponent } from './components/dialog-window/dialog-window.
 import {StoreModule} from "@ngrx/store";
 import {metaReducers, reducers} from "./reducers";
 import {DialogueState} from "./Globals/DialogueState";
+import { FileManagementComponent } from './components/file-management/file-management.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {DialogueState} from "./Globals/DialogueState";
     CharacterListComponent,
     DialogueWindow,
     DraggableSelector,
-    DialogWindowComponent
+    DialogWindowComponent,
+    FileManagementComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -26,7 +26,7 @@ export class Dialogue
 
   public RemoveConnection(uniqueId:string)
   {
-    console.log("Removed");
+
       var index =  this.ChildrenNodes.findIndex(x => x.UniqueId == uniqueId);
       if (index > -1) {
         this.ChildrenNodes.splice(index, 1);

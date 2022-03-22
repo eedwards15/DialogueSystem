@@ -6,6 +6,9 @@ export class DialogueState {
   public dialogues: Dialogue[] = []
   public selectedDialogue: Dialogue
 
+  public DialogueWindowWidth = 400;
+  public DialogueWindowHeight = 219;
+
 
   public GetAll():Dialogue[]{
     return this.dialogues
@@ -23,20 +26,22 @@ export class DialogueState {
   }
 
   public AppendDialogueAction(dialogue:Dialogue){
-
-
     this.dialogues.push(dialogue);
-
-    console.log("Final", this.dialogues)
   }
 
-  public RemoveDialogueAction(uniqueId:string){
-    for (let i = 0; i < this.dialogues.length; i++)
-    {
-      if(this.dialogues[i].UniqueId != uniqueId) {
-        this.dialogues[i] = null;
-      }
+  public RemoveDialogueAction(uniqueId:string)
+  {
+    for (let i = 0; i < this.dialogues.length; i++) {
+      let record = this.dialogues[i];
+      record.RemoveConnection(uniqueId);
     }
+
+    let index =  this.dialogues.findIndex(x => x.UniqueId == uniqueId);
+    if (index > -1) {
+      this.dialogues.splice(index, 1);
+    }
+
+
   }
 
   public SetDialogue(uniqueId:string){

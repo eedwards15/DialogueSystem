@@ -5,6 +5,7 @@ import {GetAll} from "../../actions/dialogue.actions";
 import {Subscription} from "rxjs";
 import * as fromStore from "../../reducers";
 import {DialogueState} from "../../Globals/DialogueState";
+import {Guid} from "guid-typescript";
 
 @Component({
   selector: 'app-dialog-window',
@@ -61,6 +62,15 @@ export class DialogWindowComponent implements OnInit {
 
   Deselect() {
     this.State.Deselect()
+    this.store.dispatch(GetAll());
+  }
+
+  AddNewChild() {
+    this.State.SetDialogue(this.dialogue.UniqueId);
+    let guid =  Guid.create().toString();
+    let d = new Dialogue(guid, this.State.selectedDialogue.Xpos + this.State.DialogueWindowWidth + 150,this.State.selectedDialogue.Ypos, guid)
+    this.State.AppendDialogueAction(d);
+    this.State.ConnectAction(guid);
     this.store.dispatch(GetAll());
   }
 }

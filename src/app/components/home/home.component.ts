@@ -16,6 +16,7 @@ import {Subscription} from "rxjs";
 import * as fromStore from '../../reducers/';
 import {GetAll, Processed} from "../../actions/dialogue.actions";
 import {DialogueState} from "../../Globals/DialogueState";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home',
@@ -30,8 +31,9 @@ export class HomeComponent implements OnInit {
   public IsActive:boolean
   public dialoguesSub: Subscription;
   public State:DialogueState
+  private downloadJsonHref: SafeUrl;
 
-  constructor(private store:Store<any>, private renderer2: Renderer2, state: DialogueState) {
+  constructor(private store:Store<any>, private renderer2: Renderer2, state: DialogueState, private sanitizer: DomSanitizer) {
     this.IsActive = false
 
     this.State = state;
@@ -91,6 +93,12 @@ export class HomeComponent implements OnInit {
       this.State.AppendDialogueAction(d);
       this.store.dispatch(GetAll());
       //this.store.dispatch(NewDialogue({"payload":d }))
+    }
+
+    if(key == "d"){
+        var theJSON = JSON.stringify(this.State.GetAll());
+        var uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
+        this.downloadJsonHref = uri;
     }
 
   }
