@@ -1,8 +1,20 @@
-<div class="dialogueBox" DialogueWindow [guid]="dialogue_entry" [dialogue_entry]="dialogue">
+<div class="dialogueBox" [style.height]="State.DialogueWindowHeight + 'px'" [style.width]="State.DialogueWindowWidth +'px'" DialogueWindow [guid]="dialogue_entry" [dialogue_entry]="dialogue">
   <div class="row" >
     <div DraggableSelector class="col-md-12 windowBar">
       Handle
     </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+        <select [(ngModel)]="dialogue.Speaker" class="custom-select" id="inputGroupSelect01" style="width: 100%" >
+          <option selected>Choose...</option>
+          <option value="Please Select">Please Select</option>
+          <option value="NPC">NPC</option>
+          <option value="Player">Player</option>
+        </select>
+      </div>
+
+
   </div>
   <div class="row" >
     <div class="col-md-12">
