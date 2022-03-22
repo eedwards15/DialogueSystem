@@ -1,6 +1,7 @@
 export class Dialogue
 {
   constructor(id:string, x:number, y:number, value:string) {
+
     this.UniqueId = id;
     this.Xpos =x;
     this.Ypos =y;
@@ -12,6 +13,7 @@ export class Dialogue
   public Xpos: number
   public Ypos: number
   public Value: string
+  public Speaker:string
   public ChildrenNodes: string[]
 
   public HasConnection(uniqueId:string):boolean {
@@ -37,7 +39,9 @@ export class JsonHelper
 {
   public static  JsonToDialogue(record:Dialogue) :Dialogue
   {
-     return new Dialogue(record.UniqueId,record.Xpos, record.Ypos, record.Value)
+     let newRecord = new Dialogue(record.UniqueId,record.Xpos, record.Ypos, record.Value)
+    newRecord.Speaker = record.Speaker
+    return newRecord
   }
 
 }

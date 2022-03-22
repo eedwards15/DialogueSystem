@@ -6,8 +6,8 @@ export class DialogueState {
   public dialogues: Dialogue[] = []
   public selectedDialogue: Dialogue
 
-  public DialogueWindowWidth = 400;
-  public DialogueWindowHeight = 219;
+  public DialogueWindowWidth = 432;
+  public DialogueWindowHeight = 350;
 
 
   public GetAll():Dialogue[]{
@@ -91,6 +91,7 @@ export class DialogueState {
       if(this.dialogues[i].UniqueId == dialogue.UniqueId) {
         console.log("Inside State");
         this.dialogues[i].Value = dialogue.Value;
+        this.dialogues[i].Speaker = dialogue.Speaker;
         console.log("After Update", dialogue.Value);
       }
     }

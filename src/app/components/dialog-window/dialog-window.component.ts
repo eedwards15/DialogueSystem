@@ -21,7 +21,7 @@ export class DialogWindowComponent implements OnInit {
   selectedDialogueSub : Subscription;
 
 
-  constructor(private store:Store<any>, private State:DialogueState) {
+  constructor(private store:Store<any>, public State:DialogueState) {
 
   }
 
