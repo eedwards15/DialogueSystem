@@ -12,12 +12,12 @@ export class Dialogue
   public Xpos: number
   public Ypos: number
   public Value: string
-  public ChildrenNodes: Dialogue[]
+  public ChildrenNodes: string[]
 
   public HasConnection(uniqueId:string):boolean {
     for (let i = 0; i < this.ChildrenNodes.length; i++) {
       let record = this.ChildrenNodes[i];
-      if(record.UniqueId == uniqueId){
+      if(record == uniqueId){
         return true;
       }
     }
@@ -26,15 +26,23 @@ export class Dialogue
 
   public RemoveConnection(uniqueId:string)
   {
-
-      var index =  this.ChildrenNodes.findIndex(x => x.UniqueId == uniqueId);
+      var index =  this.ChildrenNodes.findIndex(x => x == uniqueId);
       if (index > -1) {
         this.ChildrenNodes.splice(index, 1);
       }
   }
+}
 
+export class JsonHelper
+{
+  public static  JsonToDialogue(record:Dialogue) :Dialogue
+  {
+     return new Dialogue(record.UniqueId,record.Xpos, record.Ypos, record.Value)
+  }
 
 }
+
+
 
 export class UpdateMovement
 {

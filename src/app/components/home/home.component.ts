@@ -55,13 +55,13 @@ export class HomeComponent implements OnInit {
           let parent = temp[i];
 
           for (let j = 0; j < parent.ChildrenNodes.length; j++) {
-            let child = parent.ChildrenNodes[j];
+            let child = this.State.SelectDialogueAction(parent.ChildrenNodes[j]);
 
             const svgLine: SVGLineElement = this.renderer2.createElement("line", this.svg1.nativeElement.namespaceURI);
-            svgLine.setAttributeNS(null, "x1",  (parent.Xpos + 400).toString());
-            svgLine.setAttributeNS(null, "y1", (parent.Ypos + (219/2)).toString());
+            svgLine.setAttributeNS(null, "x1",  (parent.Xpos + this.State.DialogueWindowWidth).toString());
+            svgLine.setAttributeNS(null, "y1", (parent.Ypos + (this.State.DialogueWindowHeight/2)).toString());
             svgLine.setAttributeNS(null, "x2",  (child.Xpos + 10).toString());
-            svgLine.setAttributeNS(null, "y2", (child.Ypos + (219/2)).toString());
+            svgLine.setAttributeNS(null, "y2", (child.Ypos + (this.State.DialogueWindowHeight/2)).toString());
             svgLine.setAttributeNS(null, "stroke", "red");
             svgLine.setAttributeNS(null, "stroke-width", "5");
             this.svg1.nativeElement.appendChild(svgLine);
@@ -80,26 +80,16 @@ export class HomeComponent implements OnInit {
   handleKeyboardEvent(event: KeyboardEvent) {
     let key = event.key;
 
-    if(key == "c")
-    {
-      this.IsActive = !this.IsActive
-    }
 
-    if(key == "n")
+    if((event.ctrlKey || event.metaKey) && event.key == "n")
     {
-
       let guid =  Guid.create().toString();
       let d = new Dialogue(guid,0,0, guid)
       this.State.AppendDialogueAction(d);
       this.store.dispatch(GetAll());
-      //this.store.dispatch(NewDialogue({"payload":d }))
     }
 
-    if(key == "d"){
-        var theJSON = JSON.stringify(this.State.GetAll());
-        var uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
-        this.downloadJsonHref = uri;
-    }
+
 
   }
 
