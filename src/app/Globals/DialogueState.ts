@@ -3,7 +3,7 @@ import {Dialogue, UpdateMovement} from "../components/models/dialogue";
 
 @Injectable()
 export class DialogueState {
-  private dialogues: Dialogue[] = []
+  public dialogues: Dialogue[] = []
   public selectedDialogue: Dialogue
 
 
@@ -23,6 +23,8 @@ export class DialogueState {
   }
 
   public AppendDialogueAction(dialogue:Dialogue){
+
+
     this.dialogues.push(dialogue);
 
     console.log("Final", this.dialogues)
@@ -47,7 +49,6 @@ export class DialogueState {
     }
   }
 
-
   public SelectDialogueAction(uniqueId:string): Dialogue{
 
     for (let i = 0; i < this.dialogues.length; i++)
@@ -62,14 +63,36 @@ export class DialogueState {
   }
 
   public ConnectAction(dialogueID:string){
-    let connectingRecord = this.SelectDialogueAction(dialogueID);
+    if(this.selectedDialogue.HasConnection(dialogueID))
+    {
+      console.log("Has Connect", this.selectedDialogue);
+      return;
+    }
+
+
     for (let i = 0; i < this.dialogues.length; i++)
     {
-      if(this.dialogues[i].UniqueId == this.selectedDialogue.UniqueId)
+      if(this.dialogues[i].UniqueId === this.selectedDialogue.UniqueId)
       {
-        this.dialogues[i].ChildrenNodes.push(connectingRecord)
+        this.dialogues[i].ChildrenNodes.push(this.SelectDialogueAction(dialogueID))
       }
     }
+  }
+
+  public Update(dialogue: Dialogue) {
+
+    for (let i = 0; i < this.dialogues.length; i++)
+    {
+      if(this.dialogues[i].UniqueId == dialogue.UniqueId) {
+        console.log("Inside State");
+        this.dialogues[i].Value = dialogue.Value;
+        console.log("After Update", dialogue.Value);
+      }
+    }
+  }
+
+  public Deselect(){
+    this.selectedDialogue = null;
   }
 
 

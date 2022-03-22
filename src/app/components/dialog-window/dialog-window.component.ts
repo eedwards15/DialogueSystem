@@ -13,15 +13,19 @@ import {DialogueState} from "../../Globals/DialogueState";
 })
 export class DialogWindowComponent implements OnInit {
   public selectedRecord :Dialogue;
-  @Input() dialogue_entry: Dialogue;
+  public dialogue: Dialogue;
+  @Input() dialogue_entry: string;
+
 
   selectedDialogueSub : Subscription;
 
 
-  constructor(private store:Store<any>, private State:DialogueState) { }
+  constructor(private store:Store<any>, private State:DialogueState) {
+
+  }
 
   ngOnInit(): void {
-
+    this.dialogue = this.State.SelectDialogueAction(this.dialogue_entry);
     this.selectedDialogueSub = this.store.pipe(select(fromStore.Redraw)).subscribe((data) =>{
         this.selectedRecord = this.State.selectedDialogue
     });
@@ -30,7 +34,7 @@ export class DialogWindowComponent implements OnInit {
   }
 
   Remove() {
-    this.State.RemoveDialogueAction(this.dialogue_entry.UniqueId);
+    this.State.RemoveDialogueAction(this.dialogue_entry);
     this.store.dispatch(GetAll())
 
       //this.store.dispatch(RemoveDialogue({"payload": this.dialogue_entry.UniqueId}))
@@ -38,15 +42,25 @@ export class DialogWindowComponent implements OnInit {
 
 
   Select(){
-    this.State.SetDialogue(this.dialogue_entry.UniqueId);
+    this.State.SetDialogue(this.dialogue_entry);
     this.store.dispatch(GetAll())
     //this.store.dispatch(SelectDialogue({"payload": this.dialogue_entry.UniqueId}))
   }
 
   Connect(){
-    this.State.ConnectAction(this.dialogue_entry.UniqueId);
+    this.State.ConnectAction(this.dialogue.UniqueId);
     this.store.dispatch(GetAll())
    // this.store.dispatch(ConnectDialogue({"payload": this.dialogue_entry.UniqueId}))
   }
 
+
+  RemoveConnection() {
+    this.selectedRecord.RemoveConnection(this.dialogue.UniqueId);
+    this.store.dispatch(GetAll())
+  }
+
+  Deselect() {
+    this.State.Deselect()
+    this.store.dispatch(GetAll());
+  }
 }

@@ -28,14 +28,12 @@ export class HomeComponent implements OnInit {
 
   container!: ViewContainerRef;
   public IsActive:boolean
-  public dialogues:Dialogue[];
-
   public dialoguesSub: Subscription;
   public State:DialogueState
 
   constructor(private store:Store<any>, private renderer2: Renderer2, state: DialogueState) {
     this.IsActive = false
-    this.dialogues = []
+
     this.State = state;
 
   }
@@ -48,11 +46,11 @@ export class HomeComponent implements OnInit {
 
         document.getElementById("svg1").innerHTML=" "
 
-        this.dialogues = this.State.GetAll();
+       let temp = this.State.GetAll();
 
 
-        for (let i = 0; i < this.dialogues.length; i++) {
-          let parent = this.dialogues[i];
+        for (let i = 0; i < temp.length; i++) {
+          let parent = temp[i];
 
           for (let j = 0; j < parent.ChildrenNodes.length; j++) {
             let child = parent.ChildrenNodes[j];

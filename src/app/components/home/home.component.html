@@ -1,7 +1,7 @@
 <app-character-list></app-character-list>
-<ng-container *ngFor="let record of dialogues">
+<ng-container *ngFor="let record of this.State.dialogues">
   <app-dialog-window
-    [dialogue_entry]="record">
+    [dialogue_entry]="record.UniqueId">
 
   </app-dialog-window>
 
