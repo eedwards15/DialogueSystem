@@ -12,7 +12,6 @@ export class Dialogue
   public Xpos: number
   public Ypos: number
   public Value: string
-
   public ChildrenNodes: Dialogue[]
 }
 

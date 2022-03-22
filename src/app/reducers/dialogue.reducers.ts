@@ -1,61 +1,56 @@
 import { createReducer, on } from '@ngrx/store';
 import {Dialogue, UpdateMovement} from "../components/models/dialogue";
-import {NewDialogue, RemoveDialogue, SetPosition} from "../actions/dialogue.actions";
+import {
+
+  GetAll,
+ Processed,
+
+} from "../actions/dialogue.actions";
 
 export interface State {
   dialogues: Dialogue[]
+  selectedDialogue: Dialogue
+  redraw: boolean
 }
 
+// @ts-ignore
 export const initialState: State = {
-  dialogues: []
+  dialogues: [],
+  selectedDialogue: null,
+  redraw: false
 };
 
 const _dialogueReducer = createReducer(initialState,
-  on(NewDialogue, (state,payload) =>   {
-    return {...state,
-      dialogues:AppendDialogueAction(state, payload.payload)
-    };
+  on(GetAll, (state,payload) =>   {
+    return {...state, redraw:true};
   }),
-  on(SetPosition, (state,payload) =>   {
-    return {...state,
-      dialogues:SetPositionDialogueAction(state, payload.payload)
-    };
+  on(Processed, (state,payload) =>   {
+    return {...state, redraw:false};
   }),
-  on(RemoveDialogue, (state,payload) =>   {
-    return {...state,
-      dialogues:RemoveDialogueAction(state, payload.payload)
-    };
-  })
+
+
+
+
+
 );
 
 function SetPositionDialogueAction(state:any, dialogue:UpdateMovement):Dialogue[]{
-  let temp:Dialogue[] =  [];
+
   for (let i = 0; i < state.dialogues.length; i++) {
-    if(state.dialogues[i].UniqueId == dialogue.UniqueId){
-
-      let r = JSON.parse(JSON.stringify(state.dialogues[i]))
-      r.Xpos = dialogue.Xpos
-      r.Ypos = dialogue.Ypos
-
-      console.log("Update",r);
-      temp.push(r)
-      continue;
+    if(state.dialogues[i].UniqueId == dialogue.UniqueId)
+    {
+      state.dialogues[i].Xpos = dialogue.Xpos;
+      state.dialogues[i].Ypos = dialogue.Ypos;
+      break;
     }
-
-    temp.push(state.dialogues[i])
   }
-  console.log("Dialogues", temp)
-  return temp;
+
+  return state.dialogues
 }
 
-
 function AppendDialogueAction(state:any, dialogue:Dialogue):Dialogue[]{
-  let temp:Dialogue[] =  [];
-  temp.push(dialogue)
-  for (let i = 0; i < state.dialogues.length; i++) {
-    temp.push(state.dialogues[i])
-  }
-  return temp;
+  state.dialogues.push(dialogue);
+  return state.dialogues;
 }
 
 function RemoveDialogueAction(state:any, uniqueId:string):Dialogue[]{
@@ -69,6 +64,30 @@ function RemoveDialogueAction(state:any, uniqueId:string):Dialogue[]{
   return temp;
 }
 
+function SelectDialogueAction(state:any, uniqueId:string):Dialogue{
+
+  for (let i = 0; i < state.dialogues.length; i++)
+  {
+    if(state.dialogues[i].UniqueId == uniqueId) {
+       return state.dialogues[i];
+    }
+  }
+  return null;
+}
+
+function ConnectAction(state:any, dialogueID:string):Dialogue[]{
+  let connectingRecord = SelectDialogueAction(state,dialogueID);
+  for (let i = 0; i < state.dialogues.length; i++)
+  {
+    if(state.dialogues[i].UniqueId == state.selectedDialogue.UniqueId)
+    {
+       state.dialogues[i].ChildrenNodes.push(connectingRecord)
+    }
+  }
+  return state.dialogues;
+}
+
+
 
 
 export function reducer(state:any, action:any) {
@@ -76,3 +95,5 @@ export function reducer(state:any, action:any) {
 }
 
 export const AllDialogue = (state: State) => state.dialogues;
+export const SelectedDialogue = (state:State) => state.selectedDialogue;
+export const Redraw = (state:State) => state.redraw;

@@ -13,6 +13,7 @@ import {DraggableSelector} from "./components/Directives/DraggableSelector";
 import { DialogWindowComponent } from './components/dialog-window/dialog-window.component';
 import {StoreModule} from "@ngrx/store";
 import {metaReducers, reducers} from "./reducers";
+import {DialogueState} from "./Globals/DialogueState";
 
 @NgModule({
   declarations: [
@@ -32,12 +33,12 @@ import {metaReducers, reducers} from "./reducers";
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true
+        strictStateImmutability: false,
+        strictActionImmutability: false
       }
     }),
   ],
-  providers: [],
+  providers: [DialogueState],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

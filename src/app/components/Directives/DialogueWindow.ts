@@ -4,7 +4,8 @@ import {DOCUMENT} from "@angular/common";
 import {DraggableSelector} from "./DraggableSelector";
 import {Dialogue, UpdateMovement} from "../models/dialogue";
 import {Store} from "@ngrx/store";
-import {SetPosition} from "../../actions/dialogue.actions";
+import {GetAll} from "../../actions/dialogue.actions";
+import {DialogueState} from "../../Globals/DialogueState";
 
 @Directive({
   selector: "[DialogueWindow]",
@@ -24,7 +25,8 @@ export class DialogueWindow implements OnInit,AfterViewInit, OnDestroy {
   constructor(
     private elementRef: ElementRef,
     @Inject(DOCUMENT) private document: any,
-    private store:Store<any>) {}
+    private store:Store<any>,
+    private State:DialogueState) {}
 
   ngOnInit(): void {}
 
@@ -74,20 +76,20 @@ export class DialogueWindow implements OnInit,AfterViewInit, OnDestroy {
 
         currentX = Math.max(minBoundX, Math.min(x, maxBoundX));
         currentY = Math.max(minBoundY, Math.min(y, maxBoundY));
-          let movement = new UpdateMovement(this.guid, currentX,currentY);
-          this.store.dispatch(SetPosition({"payload": movement}))
+        let movement = new UpdateMovement(this.guid, currentX,currentY);
+
+        this.State.SetPositionDialogueAction(movement)
+        this.store.dispatch(GetAll())
         this.element.style.transform =  "translate3d(" + currentX + "px, " + currentY + "px, 0)"; });
     });
     const dragEndSub = dragEnd$.subscribe(() => {
 
       initialX = currentX;
       initialY = currentY;
-      console.log("End", this.guid, initialX,initialY)
-
-
 
       this.element.classList.remove('dialogue_windows');
       if (dragSub) {
+        this.store.dispatch(GetAll());
         dragSub.unsubscribe();
       }
     });

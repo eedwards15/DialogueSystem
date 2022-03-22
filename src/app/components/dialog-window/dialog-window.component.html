@@ -16,7 +16,8 @@
       <button type="button" class="btn btn-primary dialogueBox_Btn">+</button>
     </div>
     <div class="col-md-4">
-      <button type="button" class="btn btn-secondary dialogueBox_Btn">Link</button>
+      <button *ngIf="selectedRecord == null" type="button" (click)="Select()" [disabled]=" selectedRecord != null && selectedRecord.UniqueId == dialogue_entry.UniqueId" class="btn btn-secondary dialogueBox_Btn">Select</button>
+      <button *ngIf="selectedRecord != null" type="button" (click)="Connect()" class="btn btn-secondary dialogueBox_Btn">Connect</button>
     </div>
     <div class="col-md-4">
       <button type="button" class="btn btn-danger dialogueBox_Btn" (click)="Remove()" >-</button>
