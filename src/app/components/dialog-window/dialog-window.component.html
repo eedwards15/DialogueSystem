@@ -1,4 +1,4 @@
-<div class="dialogueBox" DialogueWindow [guid]="dialogue_entry.UniqueId">
+<div class="dialogueBox" DialogueWindow [guid]="dialogue_entry" [dialogue_entry]="dialogue">
   <div class="row" >
     <div DraggableSelector class="col-md-12 windowBar">
       Handle
@@ -8,15 +8,18 @@
     <div class="col-md-12">
       <textarea
         class="dialogueBox_Input"
-        [value]="dialogue_entry.Value"></textarea>
+        [(ngModel)]="dialogue.Value"></textarea>
     </div>
   </div>
   <div class="row" style="position: relative; bottom: 0px">
     <div class="col-md-4">
-      <button type="button" class="btn btn-primary dialogueBox_Btn">+</button>
+      <button type="button" [disabled]="selectedRecord != null && selectedRecord.UniqueId != dialogue.UniqueId"  class="btn btn-primary dialogueBox_Btn" (click)="AddNewChild()">+</button>
     </div>
     <div class="col-md-4">
-      <button type="button" class="btn btn-secondary dialogueBox_Btn">Link</button>
+      <button *ngIf="selectedRecord == null" type="button" (click)="Select()" [disabled]=" selectedRecord != null && selectedRecord.UniqueId == dialogue_entry" class="btn btn-secondary dialogueBox_Btn">Select</button>
+      <button *ngIf=" selectedRecord != null && selectedRecord.UniqueId != dialogue.UniqueId  && !selectedRecord.HasConnection(dialogue.UniqueId)" type="button" (click)="Connect()" class="btn btn-secondary dialogueBox_Btn">Connect</button>
+      <button *ngIf="selectedRecord != null && selectedRecord.UniqueId != dialogue.UniqueId  && selectedRecord.HasConnection(dialogue.UniqueId)" type="button" (click)="RemoveConnection()" class="btn btn-secondary dialogueBox_Btn">Disconnect</button>
+      <button *ngIf="selectedRecord != null && selectedRecord.UniqueId == dialogue.UniqueId" type="button" (click)="Deselect()" class="btn btn-secondary dialogueBox_Btn">Deselect</button>
     </div>
     <div class="col-md-4">
       <button type="button" class="btn btn-danger dialogueBox_Btn" (click)="Remove()" >-</button>

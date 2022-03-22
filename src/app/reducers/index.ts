@@ -27,3 +27,5 @@ export const total = createSelector(couterState, fromCounter.totalCount);
 
 export const dialogueState = createFeatureSelector<fromDialogue.State>("dialogue");
 export const AllDialogues = createSelector(dialogueState,fromDialogue.AllDialogue)
+export const SelectedDialogue = createSelector(dialogueState, fromDialogue.SelectedDialogue);
+export const Redraw = createSelector(dialogueState, fromDialogue.Redraw);
