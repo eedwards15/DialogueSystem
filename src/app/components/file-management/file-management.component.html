@@ -1,0 +1,16 @@
+<div *ngIf="IsActive" class="side_menu side_menu_shadow">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: dimgray 1px solid">
+      <a class="btn btn-dark" style="width: 100%"  title="Download JSON" [href]="downloadJsonHref" download="download.json">Download Json File</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      {{JsonFormat}}
+    </div>
+  </div>
+
+
+
+
+</div>
